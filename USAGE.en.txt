@@ -1,0 +1,145 @@
+Video Rotate v1.0 — Safari userscript
+For Safari + the Userscripts extension. YouTube / Bilibili / any web video.
+
+UI language: follows your browser automatically (Chinese → 中文, otherwise English),
+              and you can switch it manually from the panel's last row (中文 / EN).
+              Standalone Chinese-only / English-only builds are in dist/ — see section 6.
+
+════════════════════════════════
+1. The three icons in the player controls
+════════════════════════════════
+Where: to the left of YouTube's gear (settings) button; on the right side of Bilibili's controls.
+
+     ⟳    ⚙    ⛶
+  rotate panel fullscreen
+
+· ⟳  One click = 90°. Hold Shift to rotate the other way. The icon highlights once rotated.
+· ⚙  Opens the settings panel — it takes no space until you need it, and clicking anywhere else closes it.
+· ⛶  Fullscreen / exit fullscreen.
+
+[Fullscreen] the three icons move to the BOTTOM-RIGHT corner and stay there (same side as the
+player's own control bar), raised just enough to clear YouTube's bar, so the two never overlap when
+the control bar slides up on mouse move. The panel opens above these buttons.
+
+════════════════════════════════
+2. What this version fixes (the important part)
+════════════════════════════════
+The old complaint — "in fullscreen I have to fiddle with a dozen settings before it looks right" —
+had a single root cause:
+
+  In fullscreen the script treated the small player box on the page (1080×607) as the "display
+  area" instead of the whole screen (1080×1920). The picture was therefore computed at about 1/3
+  of its proper size: you had to zoom to 300% to fill the screen, and then nudge it up or down to
+  get it centred.
+
+How it behaves now:
+
+· In fullscreen (including Safari's "native video fullscreen") the display area is always the whole screen.
+· The aspect-ratio presets CROP instead of stretch — 4:3 / 1:1 / 9:16 no longer squash the picture.
+· New "Fit screen": picks the right angle, fills the screen, resets zoom to 100% and offset to zero.
+· New "Scope" selector: Auto / Player / Screen.
+· A live status line at the bottom of the panel (video AR, display area, zoom, crop amount) —
+  if something still looks off, that single line is usually enough to pinpoint the cause.
+
+★ For a 1080×1920 portrait screen:
+  Windowed   → change nothing (Auto by default, same as before)
+  Fullscreen → one click on ⟳ (90°) fills the whole portrait screen; nothing else to adjust.
+               Or just open ⚙ → "Fit screen".
+
+════════════════════════════════
+3. What's in the panel
+════════════════════════════════
+  Display
+  Angle    [0°] [90°] [180°] [270°]   ← click an angle directly, no repeated rotating
+  Aspect   [Auto][Fill][16:9][4:3][1:1][9:16]
+  Scope    [Auto][Player][Screen]
+  Zoom     −   315%   +                ← click the percentage to snap back to 100%
+           ▬▬▬▬▬▬▬▬▬▬▬▬●             ← the bar owns a full row: click anywhere = that zoom
+  Presets  [50%][75%][100%][125%][150%][200%][315%][400%]
+  Position ↑  ↓  ←  →   [Center]
+           [ Fit screen ]  [ Reset all ]
+  Language [中文] [EN]                 ← remembered per site
+           ───────────────────────
+           Video 16:9 (Auto box) · Scope 1080×1920 fullscreen · Zoom 100%
+
+Zoom (click the bar and land exactly there — no more tapping + over and over):
+  · Bar        The bar owns a whole row (wider, easier to hit). Click anywhere on it and the zoom
+               jumps straight to that value; hold and drag to scrub. Want 315%? Click where 315% is.
+               (Fastest method — recommended.)
+  · Presets    Jump to 50 / 75 / 100 / 125 / 150 / 200 / 315 / 400% in one click; the active value highlights.
+  · − / +      5% per click; the further from 100%, the bigger the step (up to 28%).
+  · Hold − / + Press and hold: after 240 ms it repeats continuously — roughly 100% → 300% within a
+               second — and it stops the moment you release.
+  · Wheel      Hover the zoom row or the bar and scroll: ±10% per notch;
+               ⇧ + wheel = fine 2%; ⌥ + wheel = coarse 50%.
+  · Percentage Click it to snap back to 100%.
+
+Aspect ratios (all CROP, never distort):
+  Auto   Fit: the whole picture stays visible, as large as possible (default, recommended)
+  Fill   Cover: no letterboxing; whatever overflows the edges is cut off
+  16:9 / 4:3 / 1:1 / 9:16
+         Crop the picture to that ratio and scale it up as far as it goes (not squashed)
+         e.g. a 16:9 video with 9:16 selected → a vertical slice from the middle fills the frame
+
+Scope:
+  Auto    Whole screen in fullscreen, player box when windowed (what you normally want)
+  Player  Always compute from the player box
+  Screen  Always compute from the whole screen — lets you fill the screen even in windowed mode
+
+UI language:
+  Follows the browser by default:
+    browser is Chinese (zh-CN, zh-Hant, …) → Chinese UI
+    anything else                          → English UI
+  To change it: last row of the panel, "Language" → click [中文] or [EN].
+  A manual choice wins over the browser language and is remembered per site.
+  In English the panel widens automatically — English labels (Language / Position) are much longer
+  than the Chinese ones, and without that extra width the buttons would be pushed out of the panel.
+
+  Want a standalone Chinese-only or English-only script (language locked, no switch row, slightly
+  smaller)? They live in dist/ — see section 6.
+
+════════════════════════════════
+4. Keyboard shortcuts
+════════════════════════════════
+  Option + R               Rotate 90° clockwise
+  Option + Shift + R       Rotate 90° counter-clockwise
+  Option + 0               Reset everything (0° / Auto / 100%)
+  Option + = / -           Zoom in / out (adaptive step; holding the key auto-repeats, quickly)
+  Option + Shift + = / -   Jump 50% at a time (to approach a target fast)
+  f                        Fullscreen / exit fullscreen (same as YouTube)
+
+════════════════════════════════
+5. Nothing happens? (in order)
+════════════════════════════════
+1. Quit Safari completely (Command + Q) and reopen it — after editing the script this is the only way
+   to make the extension re-read it. Reloading the page is not enough.
+2. Reload the page with Command + R.
+3. A toast saying "Video Rotate v1.0 ready: ⟳ rotate · ⚙ more settings" means the script is running.
+   No toast = the extension didn't load the script: click "AA / size" in the address bar →
+   Extensions → Userscripts → set to "Always Allow" → reload.
+
+Note: this version changed the settings storage namespace, so anything dialled in by hand previously
+no longer applies. That's deliberate — those values were compensating for a bug that no longer exists.
+
+════════════════════════════════
+6. Where things live
+════════════════════════════════
+Script (edit this):  Documents/Safari视频旋转/视频旋转.user.js   ← bilingual main script (single source of truth)
+Language packs:      Documents/Safari视频旋转/dist/
+                     video-rotate.zh.user.js   Chinese pack (language locked)
+                     video-rotate.en.user.js   English pack (language locked)
+                     ※ generated files — don't edit them. After changing the main script, run:
+                       node tools/build-lang-packs.mjs
+Extension reads:     ~/Library/Containers/com.userscripts.macos.Userscripts-Extension/Data/Documents/scripts/
+Tests:               Documents/Safari视频旋转/_test/
+                     test.mjs             18  geometry regression
+                     test-zoom.mjs        13  zoom interaction + button placement
+                     test-zoomclick.mjs   15  "click the bar, land exactly there"
+                     test-i18n.mjs        12  language detection / switching / persistence
+                     test-langpacks.mjs   12  language-pack lock verification (build first)
+                     test-fullscreen.mjs  real YouTube fullscreen
+
+· Angle / aspect / zoom / scope / language are remembered per site.
+· Bilibili danmaku (bullet comments) are a separate layer and don't rotate with the video.
+  To rotate them as well you'd have to rotate the entire screen (system-level rotation).
+· In the default state (0° / Auto / 100%) the script doesn't touch a single page style — completely invisible.

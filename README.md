@@ -2,7 +2,7 @@
 
 **简体中文** · [English](README.en.md)
 
-[![version](https://img.shields.io/badge/version-11.4-blue)](https://github.com/daletyler1737/safari-video-rotate/releases)
+[![version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/daletyler1737/safari-video-rotate/releases)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![platform](https://img.shields.io/badge/platform-macOS%2012%2B%20%C2%B7%20Safari%2015.6%2B-lightgrey)
 
@@ -123,7 +123,10 @@ node tools/build-lang-packs.mjs
 ~/Library/Containers/com.userscripts.macos.Userscripts-Extension/Data/Documents/scripts/
 ```
 
-详细中文说明见 [`使用说明.txt`](使用说明.txt)（含全屏原理、参数含义、常见问题）。
+详细说明（含全屏原理、参数含义、常见问题）：
+
+- 中文：[`使用说明.txt`](使用说明.txt)
+- English: [`USAGE.en.txt`](USAGE.en.txt)
 
 ---
 

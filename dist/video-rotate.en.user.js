@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// 【English pack】由 tools/build-lang-packs.mjs 从双语主脚本生成（v11.4）。
+// 【English pack】由 tools/build-lang-packs.mjs 从双语主脚本生成（v1.0）。
 // 语言已锁定为 en，不含语言切换入口。
 // 想要自动跟随浏览器语言 / 手动切换，请改用根目录的双语版：视频旋转.user.js
 // 不要直接改这个文件 —— 改主脚本后重新跑构建即可。
@@ -7,7 +7,7 @@
 // ==UserScript==
 // @name         Video Rotate (English pack)
 // @namespace    dale.local
-// @version      11.4
+// @version      1.0
 // @description  English UI (language locked). Adds three icons (rotate / settings / fullscreen) to the YouTube & Bilibili player controls; the picture adapts to the whole screen in fullscreen, aspect presets crop instead of stretch, plus a one-tap fit button.
 // @match        *://*/*
 // @grant        none
@@ -525,7 +525,7 @@
       fsWord: ' fullscreen', winWord: ' windowed',
       stMain: 'Video {ar} ({m} box) · Scope {w}×{h}{scope} · Zoom {z}%{clip}',
       stClip: ' · Crop {c}',
-      toast: 'Video Rotate v11.4 ready: ⟳ rotate · ⚙ more settings',
+      toast: 'Video Rotate v1.0 ready: ⟳ rotate · ⚙ more settings',
     }
   };
 

@@ -2,7 +2,7 @@
 
 [简体中文](README.md) · **English**
 
-[![version](https://img.shields.io/badge/version-11.4-blue)](https://github.com/daletyler1737/safari-video-rotate/releases)
+[![version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/daletyler1737/safari-video-rotate/releases)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![platform](https://img.shields.io/badge/platform-macOS%2012%2B%20%C2%B7%20Safari%2015.6%2B-lightgrey)
 
@@ -138,7 +138,10 @@ The extension's real script directory:
 ~/Library/Containers/com.userscripts.macos.Userscripts-Extension/Data/Documents/scripts/
 ```
 
-A detailed manual (Chinese) is in [`使用说明.txt`](使用说明.txt).
+Manuals (fullscreen internals, what every option means, troubleshooting):
+
+- English: [`USAGE.en.txt`](USAGE.en.txt)
+- 中文: [`使用说明.txt`](使用说明.txt)
 
 ---
 

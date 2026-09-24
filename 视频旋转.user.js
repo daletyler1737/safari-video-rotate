@@ -2,7 +2,7 @@
 // @name         视频旋转 / Video Rotate
 // @name:en      Video Rotate
 // @namespace    dale.local
-// @version      11.4
+// @version      1.0
 // @description  中英双语界面（自动跟随浏览器语言，也可在面板里手动切换）。YouTube / Bilibili 控制栏放三个小图标（旋转 / 设置 / 全屏）；全屏时按整块屏幕自适应，比例选项改为裁切而非拉伸，另有「一键铺满」；缩放长条点哪就多大（也可拖动 / 滚轮 / 快选档位）；全屏时按钮在右下角
 // @description:en  Bilingual UI (auto-detects browser language, switchable from the panel). Adds three icons (rotate / settings / fullscreen) to the YouTube & Bilibili player controls; the rotated picture adapts to the whole screen in fullscreen, aspect presets crop instead of stretch, plus a one-tap fit button; the zoom bar jumps straight to wherever you click; buttons sit bottom-right in fullscreen.
 // @match        *://*/*
@@ -520,7 +520,7 @@
       fsWord: ' 全屏', winWord: ' 窗口',
       stMain: '视频 {ar}（{m} 框）· 范围 {w}×{h}{scope} · 缩放 {z}%{clip}',
       stClip: ' · 裁切 {c}',
-      toast: '视频旋转 v11.4 已就绪：⟳ 旋转 · ⚙ 更多设置',
+      toast: '视频旋转 v1.0 已就绪：⟳ 旋转 · ⚙ 更多设置',
     },
     en: {
       langLab: 'Language',
@@ -553,7 +553,7 @@
       fsWord: ' fullscreen', winWord: ' windowed',
       stMain: 'Video {ar} ({m} box) · Scope {w}×{h}{scope} · Zoom {z}%{clip}',
       stClip: ' · Crop {c}',
-      toast: 'Video Rotate v11.4 ready: ⟳ rotate · ⚙ more settings',
+      toast: 'Video Rotate v1.0 ready: ⟳ rotate · ⚙ more settings',
     }
   };
 
