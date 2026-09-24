@@ -95,6 +95,11 @@ async function buildPage(c) {
   await page.addInitScript(() => {
     try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {}
   });
+  // 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+    Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+  });
   await page.addScriptTag({ content: SCRIPT });
   await page.waitForSelector('.dal-bar', { timeout: 5000 }).catch(() => {});
   if (c.ref === 'viewport') await page.evaluate(() => { window.__refViewport = true; });
@@ -168,6 +173,11 @@ for (const c of CASES) {
   const page = await browser.newPage({ viewport: { width: 2000, height: 1600 } });
   await page.setContent(pageHtml({ inline: LETTERBOX, mediaW: 1920, mediaH: 1080 }));
   await page.addInitScript(() => { try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {} });
+  // 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+    Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+  });
   await page.addScriptTag({ content: SCRIPT });
   await page.waitForTimeout(1200);
   const s = await page.evaluate(() => document.getElementById('v').getAttribute('style'));
@@ -197,8 +207,18 @@ for (const c of CASES) {
   const page = await browser.newPage({ viewport: { width: 2000, height: 1600 } });
   await page.setContent(pageHtml({ inline: FILL, mediaW: 1920, mediaH: 1080 }));
   await page.addInitScript(() => { try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {} });
+  // 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+    Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+  });
   await page.addScriptTag({ content: SCRIPT });
   await page.waitForSelector('.dal-bar', { timeout: 5000 }).catch(() => {});
+  // 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+    Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+  });
   await page.addScriptTag({ content: SCRIPT });   // 第二次注入
   await page.click('.dal-bar button:nth-child(1)');
   await page.waitForTimeout(700);
@@ -219,6 +239,11 @@ for (const c of CASES) {
   const page = await browser.newPage({ viewport: { width: 2000, height: 1600 } });
   await page.setContent(pageHtml({ inline: LETTERBOX, mediaW: 1920, mediaH: 1080 }));
   await page.addInitScript(() => { try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {} });
+  // 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+    Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+  });
   await page.addScriptTag({ content: SCRIPT });
   await page.waitForSelector('.dal-bar', { timeout: 5000 }).catch(() => {});
   for (let i = 0; i < 8; i++) { await page.click('.dal-bar button:nth-child(1)'); await page.waitForTimeout(160); }
@@ -238,6 +263,11 @@ for (const c of CASES) {
   await page.setContent(pageHtml({ cw: 1080, ch: 607, yt: true, nativeFs: true,
     inline: 'position:absolute;left:0;top:0;width:1080px;height:607px', mediaW: 1920, mediaH: 1080 }));
   await page.addInitScript(() => { try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {} });
+  // 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+    Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+  });
   await page.addScriptTag({ content: SCRIPT });
   await page.waitForSelector('.dal-bar', { timeout: 5000 }).catch(() => {});
   await page.click('.dal-bar button:nth-child(2)');

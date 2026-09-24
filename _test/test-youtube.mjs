@@ -19,6 +19,11 @@ const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gestur
 const page = await browser.newPage({ viewport: { width: 1600, height: 1000 } });
 
 // 关键：文档创建前注入
+await page.addInitScript(() => {
+  // 强制中文界面（脚本按 navigator.language 选语言，这里的断言用中文文案）
+  Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+  Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+});
 await page.addInitScript(SCRIPT);
 
 console.log('打开 ' + URL);

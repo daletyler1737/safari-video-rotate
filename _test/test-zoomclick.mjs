@@ -40,6 +40,11 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
 await page.setContent(HTML);
 await page.addInitScript(() => { try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {} });
+// 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+await page.evaluate(() => {
+  Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+  Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+});
 await page.addScriptTag({ content: SCRIPT });
 await page.waitForSelector('.dal-bar', { timeout: 5000 }).catch(() => {});
 

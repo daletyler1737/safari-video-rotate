@@ -24,6 +24,11 @@ const HTML = `<!doctype html><html><head><meta charset="utf-8"><style>
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 900 }, deviceScaleFactor: 2 });
 await page.setContent(HTML);
+// 强制中文界面：脚本按 navigator.language 自动选语言，这里断言用的是中文文案
+await page.evaluate(() => {
+  Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+  Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+});
 await page.addScriptTag({ content: SCRIPT });
 await page.waitForSelector('.dal-bar', { timeout: 5000 }).catch(() => {});
 await page.click('.dal-bar button:nth-child(2)');

@@ -1,10 +1,14 @@
+// ---------------------------------------------------------------------------
+// 【English pack】由 tools/build-lang-packs.mjs 从双语主脚本生成（v11.4）。
+// 语言已锁定为 en，不含语言切换入口。
+// 想要自动跟随浏览器语言 / 手动切换，请改用根目录的双语版：视频旋转.user.js
+// 不要直接改这个文件 —— 改主脚本后重新跑构建即可。
+// ---------------------------------------------------------------------------
 // ==UserScript==
-// @name         视频旋转 / Video Rotate
-// @name:en      Video Rotate
+// @name         Video Rotate (English pack)
 // @namespace    dale.local
 // @version      11.4
-// @description  中英双语界面（自动跟随浏览器语言，也可在面板里手动切换）。YouTube / Bilibili 控制栏放三个小图标（旋转 / 设置 / 全屏）；全屏时按整块屏幕自适应，比例选项改为裁切而非拉伸，另有「一键铺满」；缩放长条点哪就多大（也可拖动 / 滚轮 / 快选档位）；全屏时按钮在右下角
-// @description:en  Bilingual UI (auto-detects browser language, switchable from the panel). Adds three icons (rotate / settings / fullscreen) to the YouTube & Bilibili player controls; the rotated picture adapts to the whole screen in fullscreen, aspect presets crop instead of stretch, plus a one-tap fit button; the zoom bar jumps straight to wherever you click; buttons sit bottom-right in fullscreen.
+// @description  English UI (language locked). Adds three icons (rotate / settings / fullscreen) to the YouTube & Bilibili player controls; the picture adapts to the whole screen in fullscreen, aspect presets crop instead of stretch, plus a one-tap fit button.
 // @match        *://*/*
 // @grant        none
 // @run-at       document-end
@@ -490,38 +494,6 @@
      不跟着语言变，一律保持中文原样；所以下面拼状态行时判断 d.裁切 === '无' 用的是
      内部值，输出才走翻译。 */
   var STRINGS = {
-    zh: {
-      langLab: '语言',
-      rotTitle: '旋转 90°（按住 Shift 反向 · Option+R）',
-      setTitle: '画面设置（比例 / 缩放）',
-      fsTitle: '全屏（退出也可点这里）',
-      head: '画面',
-      deg: '角度',
-      mode: '比例',
-      scope: '范围',
-      scopeAuto: '自动', scopePlayer: '播放器', scopeScreen: '整屏',
-      scopeTip: '自动：全屏时用整块屏幕、窗口时用播放器框。「整屏」可让窗口模式下也铺满屏幕',
-      zoom: '缩放',
-      zoomOut: '缩小（点一下 5%，离 100% 越远步子越大；按住不放连续快调；⌥− 同效）',
-      zoomVal: '点一下直接回到 100%',
-      zoomIn: '放大（点一下 5%，离 100% 越远步子越大；按住不放连续快调；⌥= 同效）',
-      barTip: '点长条上任意位置 → 直接就缩放到那么大；按住拖动跟手；' +
-              '滚轮也行（默认 ±10%，⇧ 细调 2%，⌥ 粗调 50%）',
-      preset: '快选',
-      pos: '位置',
-      posTip: '微调画面位置（每次 3%）',
-      center: '对中',
-      centerTip: '清掉手动偏移，回到自动居中',
-      fill: '一键铺满',
-      fillTip: '自动选好角度并铺满屏幕（缩放 100%、偏移归零）',
-      reset: '全部复位',
-      untouched: '原画未调整',
-      fsSuffix: '（全屏）',
-      fsWord: ' 全屏', winWord: ' 窗口',
-      stMain: '视频 {ar}（{m} 框）· 范围 {w}×{h}{scope} · 缩放 {z}%{clip}',
-      stClip: ' · 裁切 {c}',
-      toast: '视频旋转 v11.4 已就绪：⟳ 旋转 · ⚙ 更多设置',
-    },
     en: {
       langLab: 'Language',
       rotTitle: 'Rotate 90° (hold Shift to reverse · Option+R)',
@@ -557,13 +529,8 @@
     }
   };
 
-  var LANG = (function () {
-    try {
-      var s = localStorage.getItem(LS + 'lang');
-      if (s === 'zh' || s === 'en') return s;
-    } catch (e) {}
-    return /^zh\b/i.test(navigator.language || '') ? 'zh' : 'en';
-  })();
+  /* 单语言包：语言在这里固定，不做自动识别，也不写 localStorage。 */
+  var LANG = 'en';
 
   function T(k) {
     var d = STRINGS[LANG] || STRINGS.zh;
@@ -819,16 +786,7 @@
     foot.appendChild(bReset);
     drawer.appendChild(foot);
 
-    // 语言切换：放最后一行，不打扰常用操作
-    var rLang = chipRow(T('langLab'), [
-      { label: '中文', val: 'zh' },
-      { label: 'EN', val: 'en' }
-    ], function (v) { return v === LANG; }, function (val) {
-      setLang(val);
-    });
-    rLang._box.className = 'dal-chips dal-sm';
-    drawer.appendChild(rLang);
-    drawer._lang = rLang;
+    // 单语言包：不含语言切换行
 
     // 实时状态：出问题时这行数字能直接定位原因
     var st = document.createElement('div');

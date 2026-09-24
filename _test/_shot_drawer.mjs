@@ -1,5 +1,6 @@
 /* 截取抽屉 UI（放进 docs/ 给 README 用）
-   跑法：cd _test && node _shot_drawer.mjs  */
+   跑法：cd _test && node _shot_drawer.mjs        # 中文 → docs/drawer.png
+                    node _shot_drawer.mjs en      # 英文 → docs/drawer-en.png */
 import { chromium } from 'playwright-core';
 import fs from 'fs';
 import path from 'path';
@@ -8,6 +9,11 @@ import { fileURLToPath } from 'url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const SCRIPT = fs.readFileSync(path.join(ROOT, '视频旋转.user.js'), 'utf8');
+
+const LOC = {
+  zh: { nav: 'zh-CN', aspect: '比例', preset: '快选', file: 'drawer.png' },
+  en: { nav: 'en-US', aspect: 'Aspect', preset: 'Presets', file: 'drawer-en.png' },
+}[process.argv[2] === 'en' ? 'en' : 'zh'];
 
 const HTML = `<!doctype html><html><head><meta charset="utf-8"><style>
   html,body{margin:0;padding:0;background:#111;height:100%}
@@ -27,32 +33,35 @@ const HTML = `<!doctype html><html><head><meta charset="utf-8"><style>
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 2 });
 await page.setContent(HTML);
-await page.addInitScript(() => { try { Object.keys(localStorage).forEach(k => k.indexOf('dalRot') === 0 && localStorage.removeItem(k)); } catch (e) {} });
+// 用 navigator.language 决定脚本用哪种语言（截图必须和说明文档一致）
+await page.evaluate((nav) => {
+  Object.defineProperty(navigator, 'language', { get: () => nav, configurable: true });
+  Object.defineProperty(navigator, 'languages', { get: () => [nav], configurable: true });
+}, LOC.nav);
 await page.addScriptTag({ content: SCRIPT });
 await page.waitForSelector('.dal-bar');
 await page.click('.dal-bar button:nth-child(2)');           // 打开抽屉
 await page.waitForTimeout(300);
 
 // 摆一个好读的状态：转 90° + Fill + 315%
-await page.evaluate(() => {
-  document.querySelector('.dal-bar button:nth-child(1)').click();   // 旋转
-});
+await page.click('.dal-bar button:nth-child(1)');           // 旋转
 await page.waitForTimeout(200);
-await page.evaluate(() => {
+await page.evaluate(({ aspect, preset }) => {
   const rows = [...document.querySelectorAll('.dal-drawer .dal-row')];
   const chip = (lab, txt) => {
     const row = rows.find(r => r.querySelector('.dal-lab') && r.querySelector('.dal-lab').textContent === lab);
     const b = row && [...row.querySelectorAll('button')].find(b => b.textContent === txt);
     if (b) b.click();
   };
-  chip('比例', 'Fill');
-  chip('快选', '315%');
-});
+  chip(aspect, 'Fill');
+  chip(preset, '315%');
+}, { aspect: LOC.aspect, preset: LOC.preset });
 await page.waitForTimeout(400);
 
 const out = path.join(ROOT, 'docs');
 fs.mkdirSync(out, { recursive: true });
-await page.locator('.dal-drawer').screenshot({ path: path.join(out, 'drawer.png') });
-console.log('已保存 ' + path.join(out, 'drawer.png'));
+const dst = path.join(out, LOC.file);
+await page.locator('.dal-drawer').screenshot({ path: dst });
+console.log('已保存 ' + dst);
 
 await browser.close();

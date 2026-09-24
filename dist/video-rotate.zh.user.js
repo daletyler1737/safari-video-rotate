@@ -1,10 +1,14 @@
+// ---------------------------------------------------------------------------
+// 【中文包】由 tools/build-lang-packs.mjs 从双语主脚本生成（v11.4）。
+// 语言已锁定为 zh，不含语言切换入口。
+// 想要自动跟随浏览器语言 / 手动切换，请改用根目录的双语版：视频旋转.user.js
+// 不要直接改这个文件 —— 改主脚本后重新跑构建即可。
+// ---------------------------------------------------------------------------
 // ==UserScript==
-// @name         视频旋转 / Video Rotate
-// @name:en      Video Rotate
+// @name         视频旋转（中文包）
 // @namespace    dale.local
 // @version      11.4
-// @description  中英双语界面（自动跟随浏览器语言，也可在面板里手动切换）。YouTube / Bilibili 控制栏放三个小图标（旋转 / 设置 / 全屏）；全屏时按整块屏幕自适应，比例选项改为裁切而非拉伸，另有「一键铺满」；缩放长条点哪就多大（也可拖动 / 滚轮 / 快选档位）；全屏时按钮在右下角
-// @description:en  Bilingual UI (auto-detects browser language, switchable from the panel). Adds three icons (rotate / settings / fullscreen) to the YouTube & Bilibili player controls; the rotated picture adapts to the whole screen in fullscreen, aspect presets crop instead of stretch, plus a one-tap fit button; the zoom bar jumps straight to wherever you click; buttons sit bottom-right in fullscreen.
+// @description  中文界面（语言已锁定）。YouTube / Bilibili 控制栏放三个小图标（旋转 / 设置 / 全屏）；全屏时按整块屏幕自适应，比例选项改为裁切而非拉伸，另有「一键铺满」；缩放长条点哪就多大。
 // @match        *://*/*
 // @grant        none
 // @run-at       document-end
@@ -521,49 +525,11 @@
       stMain: '视频 {ar}（{m} 框）· 范围 {w}×{h}{scope} · 缩放 {z}%{clip}',
       stClip: ' · 裁切 {c}',
       toast: '视频旋转 v11.4 已就绪：⟳ 旋转 · ⚙ 更多设置',
-    },
-    en: {
-      langLab: 'Language',
-      rotTitle: 'Rotate 90° (hold Shift to reverse · Option+R)',
-      setTitle: 'Display settings (aspect / zoom)',
-      fsTitle: 'Fullscreen (click again to exit)',
-      head: 'Display',
-      deg: 'Angle',
-      mode: 'Aspect',
-      scope: 'Scope',
-      scopeAuto: 'Auto', scopePlayer: 'Player', scopeScreen: 'Screen',
-      scopeTip: 'Auto: whole screen in fullscreen, player box when windowed. ' +
-                '"Screen" also fills the screen in windowed mode',
-      zoom: 'Zoom',
-      zoomOut: 'Zoom out (5% per click, bigger steps the further from 100%; hold to repeat; ⌥− same)',
-      zoomVal: 'Click to reset to 100%',
-      zoomIn: 'Zoom in (5% per click, bigger steps the further from 100%; hold to repeat; ⌥= same)',
-      barTip: 'Click anywhere on the bar to jump to that zoom; drag to scrub; ' +
-              'mouse wheel works too (±10%, ⇧ fine 2%, ⌥ coarse 50%)',
-      preset: 'Presets',
-      pos: 'Position',
-      posTip: 'Nudge the picture (3% per click)',
-      center: 'Center',
-      centerTip: 'Clear the manual offset and re-center automatically',
-      fill: 'Fit screen',
-      fillTip: 'Pick the right angle and fill the screen (zoom 100%, offset reset)',
-      reset: 'Reset all',
-      untouched: 'Original, untouched',
-      fsSuffix: ' (fullscreen)',
-      fsWord: ' fullscreen', winWord: ' windowed',
-      stMain: 'Video {ar} ({m} box) · Scope {w}×{h}{scope} · Zoom {z}%{clip}',
-      stClip: ' · Crop {c}',
-      toast: 'Video Rotate v11.4 ready: ⟳ rotate · ⚙ more settings',
     }
   };
 
-  var LANG = (function () {
-    try {
-      var s = localStorage.getItem(LS + 'lang');
-      if (s === 'zh' || s === 'en') return s;
-    } catch (e) {}
-    return /^zh\b/i.test(navigator.language || '') ? 'zh' : 'en';
-  })();
+  /* 单语言包：语言在这里固定，不做自动识别，也不写 localStorage。 */
+  var LANG = 'zh';
 
   function T(k) {
     var d = STRINGS[LANG] || STRINGS.zh;
@@ -819,16 +785,7 @@
     foot.appendChild(bReset);
     drawer.appendChild(foot);
 
-    // 语言切换：放最后一行，不打扰常用操作
-    var rLang = chipRow(T('langLab'), [
-      { label: '中文', val: 'zh' },
-      { label: 'EN', val: 'en' }
-    ], function (v) { return v === LANG; }, function (val) {
-      setLang(val);
-    });
-    rLang._box.className = 'dal-chips dal-sm';
-    drawer.appendChild(rLang);
-    drawer._lang = rLang;
+    // 单语言包：不含语言切换行
 
     // 实时状态：出问题时这行数字能直接定位原因
     var st = document.createElement('div');

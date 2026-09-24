@@ -26,6 +26,11 @@ page.on('pageerror', (e) => console.log('⚠️ 页面错误: ' + e.message));
 page.on('console', (m) => {
   if (m.type() === 'error') console.log('⚠️ console: ' + m.text().slice(0, 200));
 });
+await page.addInitScript(() => {
+  // 强制中文界面（脚本按 navigator.language 选语言，这里的断言用中文文案）
+  Object.defineProperty(navigator, 'language', { get: () => 'zh-CN', configurable: true });
+  Object.defineProperty(navigator, 'languages', { get: () => ['zh-CN', 'zh'], configurable: true });
+});
 await page.addInitScript(SCRIPT);
 
 console.log(`视口 ${VP[0]}x${VP[1]}  打开 ${URL}`);
