@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+
+# 测试依赖与产物（截图只是本地留档，不进仓库）
+# 注意：node_modules 不带尾斜杠 —— 本地它是软链到全局 workspace 的，带斜杠匹配不到
+node_modules
+_test/node_modules
+_test/*.png
+缩放长条界面.png
+*.log
