@@ -124,6 +124,35 @@ node test-fullscreen.mjs            # 真实 YouTube 全屏专项（需要真实
 
 ---
 
+## 网络说明（本机开发环境）
+
+`git clone` / `git push` 连不上 GitHub 时，多半是**代理没配到 git 上** ——
+git **不会**自动读取 macOS「系统设置 → 网络 → 代理」，所以浏览器能开 GitHub，git 照样超时。
+
+本机可用的配置（只让 github.com 走本地代理，gitee 等其它站点不受影响）：
+
+```bash
+git config --global http.https://github.com/.proxy http://127.0.0.1:7897
+git config --global credential.helper osxkeychain    # 记住凭据，不用每次输 token
+```
+
+> 两个坑：
+> 1. `gh-proxy.com` / `ghproxy.net` 这类镜像**只做只读加速，不能用于 `git push`**；
+>    若同时配了 `url.*.insteadOf` 把 `github.com` 重写到镜像，push 会被带偏。
+> 2. 想用 `pushInsteadOf` 把 push 拉回原生也不行：当它与 `insteadOf` 的前缀**一样长**时，
+>    git 取 `insteadOf` 胜出，那条规则形同虚设。
+>
+> 所以正确做法是走本地代理直连原生 GitHub，不要混用镜像重写。
+
+万一 `git push` 仍然不可用，仓库自带 `tools/sync-to-github.py`，改走 GitHub REST API 上传
+（增量比对，只传变化的文件）：
+
+```bash
+GH_TOKEN=你的token python3 tools/sync-to-github.py "提交信息"
+```
+
+---
+
 ## 许可
 
 [MIT](LICENSE)
